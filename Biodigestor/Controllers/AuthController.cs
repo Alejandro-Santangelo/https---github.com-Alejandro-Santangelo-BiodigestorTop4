@@ -135,8 +135,8 @@ public async Task<IActionResult> Register([FromBody] UsuarioRegistradoDto dto)
     }
 
     // Verificar si el DNI está en la tabla Clientes o Personal
-    var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.DNI == dto.DNI);
-    var personal = await _context.Personal.FirstOrDefaultAsync(p => p.DNI == dto.DNI);
+    var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.DNI == dto.DNI && c.Email == dto.Email);
+    var personal = await _context.Personal.FirstOrDefaultAsync(p => p.DNI == dto.DNI && p.Email == dto.Email);
 
     string rol;
     if (cliente != null)
@@ -149,10 +149,11 @@ public async Task<IActionResult> Register([FromBody] UsuarioRegistradoDto dto)
     }
     else
     {
-        return BadRequest(new { message = "DNI no encontrado en Clientes o Personal" });
+        // El DNI o el Email no coinciden en las tablas Clientes o Personal
+        return BadRequest(new { message = "DNI o Email no encontrados en Clientes o Personal" });
     }
 
-    // Verificar si el username o email ya están registrados
+    // Verificar si el username o email ya están registrados en UsuariosRegistrados
     var existingUser = await _context.UsuariosRegistrados
         .AnyAsync(u => u.Username == dto.Username || u.Email == dto.Email);
     
@@ -166,7 +167,7 @@ public async Task<IActionResult> Register([FromBody] UsuarioRegistradoDto dto)
     {
         Username = dto.Username,
         Email = dto.Email,
-        Password = dto.Password, // Solo guardar la contraseña
+        Password = dto.Password, // Guardar la contraseña tal como se recibe (se recomienda encriptarla)
         DNI = dto.DNI,
         Rol = rol // Asignar rol
     };
@@ -176,6 +177,7 @@ public async Task<IActionResult> Register([FromBody] UsuarioRegistradoDto dto)
 
     return Ok(new { message = "Registro exitoso" });
 }
+
 
 
 
