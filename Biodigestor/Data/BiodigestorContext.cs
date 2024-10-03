@@ -22,6 +22,7 @@ namespace Biodigestor.Data
         public DbSet<ValvulaAgua> ValvulasAgua { get; set; }
         public DbSet<ValvulaPresion> ValvulasPresion { get; set; }
         public DbSet<Agitador> Agitadores { get; set; }
+        public DbSet<UsuarioRegistradoModel> UsuariosRegistrados { get; set; }
         
         public DbSet<Calentador> Calentadores { get; set; }
         public DbSet<Factura> Facturas { get; set; }
