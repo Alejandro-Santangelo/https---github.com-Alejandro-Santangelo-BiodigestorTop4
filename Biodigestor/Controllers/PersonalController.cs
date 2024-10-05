@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Biodigestor.Model; // Asegúrate de que el namespace es correcto
 using System.Threading.Tasks;
 using Biodigestor.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
 {

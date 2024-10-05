@@ -4,6 +4,8 @@ using Biodigestor.Model;
 using Biodigestor.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,6 +48,7 @@ public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
 
 
     // GET: api/Clientes/dni/{dni}
+    [Authorize(Roles = "Cliente")]
     [HttpGet("dni/{dni}")]
     public async Task<ActionResult<ClienteDto>> GetClienteDatosTotales(int dni)
     {
@@ -88,6 +91,7 @@ public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
     }
 
     // GET: api/Clientes
+    [Authorize(Roles = "Administracion , Cliente")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
     {
@@ -100,6 +104,7 @@ public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
     }
 
     // GET: api/Clientes/{dni}
+    
     [HttpGet("{dni}")]
     public async Task<ActionResult<Cliente>> GetClienteByDni(int dni)
     {

@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Biodigestor.Data;
 using Biodigestor.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers;
+[Authorize(Roles = "Manager, Tecnico")] 
 
 [ApiController]
 [Route("api/[controller]")]

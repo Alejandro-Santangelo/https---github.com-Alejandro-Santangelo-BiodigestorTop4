@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\BiodigestorTop4\\Biodigestor\\Biodigestor.csproj": {}
+    "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj": {}
   },
   "projects": {
-    "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\BiodigestorTop4\\Biodigestor\\Biodigestor.csproj": {
+    "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\BiodigestorTop4\\Biodigestor\\Biodigestor.csproj",
+        "projectUniqueName": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj",
         "projectName": "Biodigestor",
-        "projectPath": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\BiodigestorTop4\\Biodigestor\\Biodigestor.csproj",
+        "projectPath": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj",
         "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\BiodigestorTop4\\Biodigestor\\obj\\",
+        "outputPath": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

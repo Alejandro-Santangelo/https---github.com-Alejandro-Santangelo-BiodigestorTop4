@@ -4,11 +4,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Biodigestor.Data;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Biodigestor.Models;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
@@ -30,6 +27,14 @@ builder.Services.AddCors(options =>
 // Registrar la base de datos con EF Core
 builder.Services.AddDbContext<BiodigestorContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configurar autenticación basada en cookies
+builder.Services.AddAuthentication("CookieAuth")
+    .AddCookie("CookieAuth", options =>
+    {
+        options.Cookie.Name = "AuthCookie";
+        options.LoginPath = "/Auth/login"; // Ruta donde se maneja el login
+    });
 
 // Configurar Swagger
 builder.Services.AddEndpointsApiExplorer();

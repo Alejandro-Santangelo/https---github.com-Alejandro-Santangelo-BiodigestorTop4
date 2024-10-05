@@ -5,6 +5,7 @@ using Biodigestor.Models;
 using Biodigestor.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
 {

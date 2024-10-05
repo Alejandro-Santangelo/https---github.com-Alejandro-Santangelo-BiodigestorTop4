@@ -5,9 +5,11 @@ using Biodigestor.Models; // Asegúrate de importar el espacio de nombres correc
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
 {
+    [Authorize(Roles = "Manager, Tecnico")]
     [Route("api/[controller]")]
     [ApiController]
     public class RegistrosController : ControllerBase

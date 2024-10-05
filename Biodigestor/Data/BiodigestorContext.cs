@@ -35,6 +35,13 @@ namespace Biodigestor.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+             modelBuilder.Entity<ApplicationUser>(entity =>
+            {
+                entity.Property(e => e.AcceptedTerms)
+                      .IsRequired()
+                      .HasDefaultValue(false); // Valor por defecto
+            });
            
 
             // Configuración para Cliente

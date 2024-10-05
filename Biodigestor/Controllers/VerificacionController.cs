@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Biodigestor.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
 {

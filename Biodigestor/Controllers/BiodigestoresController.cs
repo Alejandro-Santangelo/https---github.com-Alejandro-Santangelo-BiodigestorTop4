@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using Biodigestor.Models;
 using Biodigestor.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
-{
+{   
+    [Authorize(Roles = "Manager, Tecnico")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ApiController]
     [Route("api/[controller]")]
