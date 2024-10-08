@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
 {
+
+    [Authorize(Roles = " Manager")]
     [Route("api/[controller]")]
     [ApiController]
     public class PersonalController : ControllerBase

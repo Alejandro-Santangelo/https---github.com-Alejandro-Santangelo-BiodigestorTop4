@@ -8,6 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
+
+
+[Authorize(Roles = "Administracion , Manager")]
 [ApiController]
 [Route("api/[controller]")]
 

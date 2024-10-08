@@ -6,12 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using Biodigestor.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Biodigestor.Models;
+using Biodigestor.Filters; // Asegúrate de tener el namespace correcto para el filtro
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.AddConsole();
 
 // Agregar servicios al contenedor.
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ClienteDniAuthorizationFilter>(); // Aplicar el filtro de autorización globalmente
+});
 
 // Configurar CORS
 builder.Services.AddCors(options =>
@@ -35,6 +39,9 @@ builder.Services.AddAuthentication("CookieAuth")
         options.Cookie.Name = "AuthCookie";
         options.LoginPath = "/Auth/login"; // Ruta donde se maneja el login
     });
+
+// Registrar el filtro personalizado para la autorización por DNI
+builder.Services.AddScoped<ClienteDniAuthorizationFilter>(); // Registro del filtro personalizado
 
 // Configurar Swagger
 builder.Services.AddEndpointsApiExplorer();

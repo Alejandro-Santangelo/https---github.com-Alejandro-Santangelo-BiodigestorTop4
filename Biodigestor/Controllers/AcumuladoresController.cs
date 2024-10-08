@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
 {   
+    [Authorize(Roles = "Tecnico, Manager")]
     [ApiExplorerSettings(IgnoreApi = false)]
     [ApiController]
     [Route("api/[controller]")]
