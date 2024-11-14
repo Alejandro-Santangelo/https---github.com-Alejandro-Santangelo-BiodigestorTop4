@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+[Authorize(Roles = "Administracion , Manager")]
 [Route("UsuarioAdministrador/[controller]")]
 [ApiController]
 public class ClienteController : ControllerBase
@@ -22,76 +24,89 @@ public class ClienteController : ControllerBase
     }
 
     // POST: api/Clientes
-   [HttpPost]
-public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
+    [HttpPost]
+    public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
+    {
+        // Validar el modelo
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Verificar si ya existe un cliente con el mismo DNI
+        var clienteExistente = await _context.Clientes.FirstOrDefaultAsync(c => c.DNI == cliente.DNI);
+        if (clienteExistente != null)
+        {
+            // Retornar un conflicto si el DNI ya está registrado
+            return Conflict(new { message = "Ya existe un cliente con ese DNI." });
+        }
+
+        // Agregar el nuevo cliente si no existe un cliente con el mismo DNI
+        _context.Clientes.Add(cliente);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetClienteByDni), new { dni = cliente.DNI }, cliente);
+    }
+
+    // GET: api/Clientes/dni
+    
+[HttpGet("dni")]
+public async Task<ActionResult<ClienteDto>> GetClienteDatosTotales()
 {
-    // Validar el modelo
-    if (!ModelState.IsValid)
+    
+    // Obtener el DNI del cliente autenticado desde las claims
+    var dniClaim = User.FindFirst("DNI")?.Value;
+
+    // Verificar que el claim DNI exista y sea válido
+    if (dniClaim == null || !int.TryParse(dniClaim, out int dniAutenticado))
     {
-        return BadRequest(ModelState);
+        return BadRequest(new { message = "DNI no válido o no autenticado." });
     }
 
-    // Verificar si ya existe un cliente con el mismo DNI
-    var clienteExistente = await _context.Clientes.FirstOrDefaultAsync(c => c.DNI == cliente.DNI);
-    if (clienteExistente != null)
+    // Buscar los datos del cliente autenticado
+    var cliente = await _context.Clientes
+        .Include(c => c.Domicilios)
+        .Include(c => c.Facturas)
+        .FirstOrDefaultAsync(c => c.DNI == dniAutenticado);
+
+    // Verificar si el cliente existe
+    if (cliente == null)
     {
-        // Retornar un conflicto si el DNI ya está registrado
-        return Conflict(new { message = "Ya existe un cliente con ese DNI." });
+        return NotFound(new { message = "Cliente no encontrado." });
     }
 
-    // Agregar el nuevo cliente si no existe un cliente con el mismo DNI
-    _context.Clientes.Add(cliente);
-    await _context.SaveChangesAsync();
+    // Mapear a ClienteDto
+    var clienteDto = new ClienteDto
+    {
+        NumeroCliente = cliente.NumeroCliente,
+        DNI = cliente.DNI,
+        Nombre = cliente.Nombre,
+        Apellido = cliente.Apellido,
+        Email = cliente.Email,
+        Domicilios = cliente.Domicilios?.Select(d => new DomicilioDto
+        {
+            NumeroMedidor = d.NumeroMedidor,
+            Calle = d.Calle,
+            Numero = d.Numero,
+            Piso = d.Piso,
+            Departamento = d.Departamento
+        }).ToList(),
+        Facturas = cliente.Facturas?.Select(f => new FacturaDto
+        {
+            NumeroFactura = f.NumeroFactura,
+            FechaEmision = f.FechaEmision,
+            FechaVencimiento = f.FechaVencimiento,
+            ConsumoMensual = f.ConsumoMensual,
+            ConsumoTotal = f.ConsumoTotal
+        }).ToList()
+    };
 
-    return CreatedAtAction(nameof(GetClienteByDni), new { dni = cliente.DNI }, cliente);
+    return Ok(clienteDto);
 }
 
 
-    // GET: api/Clientes/dni/{dni}
-    [Authorize(Roles = "Cliente")]
-    [HttpGet("dni/{dni}")]
-    public async Task<ActionResult<ClienteDto>> GetClienteDatosTotales(int dni)
-    {
-        var cliente = await _context.Clientes
-            .Include(c => c.Domicilios)
-            .Include(c => c.Facturas)
-            .FirstOrDefaultAsync(c => c.DNI == dni);
-
-        if (cliente == null)
-        {
-            return NotFound();
-        }
-
-        var clienteDto = new ClienteDto
-        {
-            NumeroCliente = cliente.NumeroCliente,
-            DNI = cliente.DNI,
-            Nombre = cliente.Nombre,
-            Apellido = cliente.Apellido,
-            Email = cliente.Email,
-            Domicilios = cliente.Domicilios?.Select(d => new DomicilioDto
-            {
-                NumeroMedidor = d.NumeroMedidor,
-                Calle = d.Calle,
-                Numero = d.Numero,
-                Piso = d.Piso,
-                Departamento = d.Departamento
-            }).ToList(),
-            Facturas = cliente.Facturas?.Select(f => new FacturaDto
-            {
-                NumeroFactura = f.NumeroFactura,
-                FechaEmision = f.FechaEmision,
-                FechaVencimiento = f.FechaVencimiento,
-                ConsumoMensual = f.ConsumoMensual,
-                ConsumoTotal = f.ConsumoTotal
-            }).ToList()
-        };
-
-        return clienteDto;
-    }
-
     // GET: api/Clientes
-    [Authorize(Roles = "Administracion , Cliente")]
+    
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
     {
@@ -104,7 +119,6 @@ public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
     }
 
     // GET: api/Clientes/{dni}
-    
     [HttpGet("{dni}")]
     public async Task<ActionResult<Cliente>> GetClienteByDni(int dni)
     {
@@ -122,7 +136,7 @@ public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
     {
         if (dni != cliente.DNI)
         {
-            return BadRequest("El Numero de Cliente y D.n.i. no se pueden cambiar, debe ingresar los valores actuales ");
+            return BadRequest("El Numero de Cliente y D.N.I. no se pueden cambiar, debe ingresar los valores actuales.");
         }
 
         _context.Entry(cliente).State = EntityState.Modified;

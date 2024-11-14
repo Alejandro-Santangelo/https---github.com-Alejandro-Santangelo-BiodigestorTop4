@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Biodigestor.Controllers
 {
+    
     [ApiController]
     [Route("Auth")]
     public class AuthController : ControllerBase
@@ -101,42 +103,44 @@ namespace Biodigestor.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+{
+    if (!ModelState.IsValid)
+    {
+        return BadRequest(ModelState);
+    }
 
-            // Buscar al usuario en la tabla UsuariosRegistrados por Username
-            var usuario = await _context.UsuariosRegistrados
-                .FirstOrDefaultAsync(u => u.Username == loginDto.Username);
+    // Buscar al usuario en la tabla UsuariosRegistrados por Username
+    var usuario = await _context.UsuariosRegistrados
+        .FirstOrDefaultAsync(u => u.Username == loginDto.Username);
 
-            if (usuario == null || usuario.Password != loginDto.Password)
-            {
-                return Unauthorized(new { message = "Usuario o contraseña incorrectos" });
-            }
+    if (usuario == null || usuario.Password != loginDto.Password)
+    {
+        return Unauthorized(new { message = "Usuario o contraseña incorrectos" });
+    }
 
-            // Crear las claims (información sobre el usuario)
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, usuario.Username),
-                new Claim(ClaimTypes.Role, usuario.Rol!) // Asignar el rol
-            };
+    // Crear las claims (información sobre el usuario)
+    var claims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, usuario.Username),
+        new Claim(ClaimTypes.Role, usuario.Rol!), // Asignar el rol
+        new Claim("DNI", usuario.DNI.ToString()) // Convertir DNI a string para agregarlo como claim
+    };
 
-            var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
-            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+    var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
+    var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-            // Autenticar al usuario y crear la cookie
-            await HttpContext.SignInAsync("CookieAuth", claimsPrincipal);
+    // Autenticar al usuario y crear la cookie
+    await HttpContext.SignInAsync("CookieAuth", claimsPrincipal);
 
-            return Ok(new 
-            { 
-                message = "Inicio de sesión exitoso", 
-                usuario = usuario.Username, 
-                rol = usuario.Rol // Devolver el rol del usuario
-            });
-        }
+    return Ok(new 
+    { 
+        message = "Inicio de sesión exitoso", 
+        usuario = usuario.Username, 
+        rol = usuario.Rol // Devolver el rol del usuario
+    });
+}
+
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()

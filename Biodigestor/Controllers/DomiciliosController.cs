@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
 
-
+[Authorize(Roles = "Administracion , Manager")]
 [ApiController]
 [Route("USUARIO ADMINISTRADOR/[controller]")]
 //[ApiExplorerSettings(GroupName = "Usuario Administrador")]
