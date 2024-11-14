@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj": {}
+    "C:\\Users\\marom\\source\\repos\\https---github.com-Alejandro-Santangelo-BiodigestorTop4\\Biodigestor\\Biodigestor.csproj": {}
   },
   "projects": {
-    "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj": {
+    "C:\\Users\\marom\\source\\repos\\https---github.com-Alejandro-Santangelo-BiodigestorTop4\\Biodigestor\\Biodigestor.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj",
+        "projectUniqueName": "C:\\Users\\marom\\source\\repos\\https---github.com-Alejandro-Santangelo-BiodigestorTop4\\Biodigestor\\Biodigestor.csproj",
         "projectName": "Biodigestor",
-        "projectPath": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\Biodigestor.csproj",
-        "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Usuario\\Desktop\\MIS PROYECTOS\\Resguardo\\BiodigestorTop4-Resguardo\\Biodigestor\\obj\\",
+        "projectPath": "C:\\Users\\marom\\source\\repos\\https---github.com-Alejandro-Santangelo-BiodigestorTop4\\Biodigestor\\Biodigestor.csproj",
+        "packagesPath": "C:\\Users\\marom\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\marom\\source\\repos\\https---github.com-Alejandro-Santangelo-BiodigestorTop4\\Biodigestor\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\marom\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -25,7 +25,6 @@
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -43,16 +42,21 @@
         "restoreAuditProperties": {
           "enableAudit": "true",
           "auditLevel": "low",
-          "auditMode": "direct"
-        }
+          "auditMode": "all"
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.Identity": {
+              "target": "Package",
+              "version": "[1.12.1, )"
+            },
             "MailKit": {
               "target": "Package",
-              "version": "[4.7.1, )"
+              "version": "[4.8.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -75,6 +79,8 @@
               "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.8, )"
             },
@@ -83,12 +89,22 @@
               "version": "[8.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[8.0.8, )"
+              "version": "[8.0.6, )"
             },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Microsoft.Identity.Client": {
+              "target": "Package",
+              "version": "[4.65.0, )"
+            },
+            "Microsoft.IdentityModel.JsonWebTokens": {
+              "target": "Package",
+              "version": "[7.1.2, )"
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
@@ -97,6 +113,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.7.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.0.4, )"
             }
           },
           "imports": [
@@ -118,7 +138,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-rc.1.24452.12/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
